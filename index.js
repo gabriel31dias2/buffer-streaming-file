@@ -4,20 +4,20 @@ const fs = require('fs');
  app.get('/', (req, res) => {
    fs.readFile('./index.html', (err, html) => res.end(html));
  });
- app.get('/movies/:movieName', (req, res) => {
-   const { movieName } = req.params;
+ app.get('/audio/:audioName', (req, res) => {
+   const { audioName } = req.params;
 
-   var bufferString = Buffer.from(movieName, 'base64')
+   var bufferString = Buffer.from(audioName, 'base64')
    var stringPath = bufferString.toString();
 
    console.log(stringPath)
 
-   const movieFile = `./movies/${stringPath}`;
-   fs.stat(movieFile, (err, stats) => {
+   const audioFile = `./audio/${stringPath}`;
+   fs.stat(audioFile, (err, stats) => {
 
      if (err) {
        console.log(err);
-       return res.status(404).end('<h1>Movie Not found</h1>');
+       return res.status(404).end('<h1>Audio Not found</h1>');
      }
 
      // Variáveis necessárias para montar o chunk header corretamente
@@ -31,15 +31,15 @@ const fs = require('fs');
        'Content-Range': `bytes ${start}-${end}/${size}`,
        'Accept-Ranges': 'bytes',
        'Content-Length': chunkSize,
-       'Content-Type': 'video/mp4'
+       'Content-Type': 'Audio/wav'
      });
      // É importante usar status 206 - Partial Content para o streaming funcionar
      res.status(206);
      // Utilizando ReadStream do Node.js
      // Ele vai ler um arquivo e enviá-lo em partes via stream.pipe()
-     const stream = fs.createReadStream(movieFile, { start, end });
+     const stream = fs.createReadStream(audioFile, { start, end });
      stream.on('open', () => stream.pipe(res));
      stream.on('error', (streamErr) => res.end(streamErr));
    });
  });
- app.listen(3000, () => console.log('VideoFlix Server!'));
+ app.listen(7000, () => console.log('VideoFlix Server!'));
