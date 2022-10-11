@@ -9,9 +9,6 @@ const fs = require('fs');
 
    var bufferString = Buffer.from(audioName, 'base64')
    var stringPath = bufferString.toString();
-
-   console.log(stringPath)
-
    const audioFile = `./audio/${stringPath}`;
    fs.stat(audioFile, (err, stats) => {
 
