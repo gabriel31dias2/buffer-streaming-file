@@ -39,4 +39,4 @@ const fs = require('fs');
      stream.on('error', (streamErr) => res.end(streamErr));
    });
  });
- app.listen(7000, () => console.log('VideoFlix Server!'));
+ app.listen(7000, () => console.log('Server started reading wav files!'));
