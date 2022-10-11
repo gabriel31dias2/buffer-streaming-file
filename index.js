@@ -1,9 +1,15 @@
 const fs = require('fs');
- const express = require('express');
- const app = express();
+const express = require('express');
+const cors = require('cors');
+
+const app = express();
+
+app.use(cors())
+
  app.get('/', (req, res) => {
    fs.readFile('./index.html', (err, html) => res.end(html));
  });
+
  app.get('/audio/:audioName', (req, res) => {
    const { audioName } = req.params;
 
