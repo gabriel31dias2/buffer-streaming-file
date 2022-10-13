@@ -15,7 +15,7 @@ app.use(cors())
 
    var bufferString = Buffer.from(audioName, 'base64')
    var stringPath = bufferString.toString();
-   const audioFile = `./audio/${stringPath}`;
+   const audioFile = `./audio/${audioName}.wav`; 
    fs.stat(audioFile, (err, stats) => {
 
      if (err) {
