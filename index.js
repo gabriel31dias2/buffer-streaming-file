@@ -10,12 +10,16 @@ app.use(cors())
    fs.readFile('./index.html', (err, html) => res.end(html));
  });
 
- app.get('/audio/:audioName', (req, res) => {
+ app.get('/audio/:path/:audioName', (req, res) => {
    const { audioName } = req.params;
+   let { path } = req.params;
 
-   var bufferString = Buffer.from(audioName, 'base64')
-   var stringPath = bufferString.toString();
-   const audioFile = `./audio/${audioName}.wav`; 
+   console.log(path)
+
+   path = path.replace(/-/g, '/');
+
+   const audioFile = `./audios/${path}/${audioName}.wav`; 
+
    fs.stat(audioFile, (err, stats) => {
 
      if (err) {
@@ -23,7 +27,6 @@ app.use(cors())
        return res.status(404).end('<h1>Audio Not found</h1>');
      }
 
-     // Variáveis necessárias para montar o chunk header corretamente
      const { range } = req.headers;
      const { size } = stats;
      const start = Number((range || '').replace(/bytes=/, '').split('-')[0]);
